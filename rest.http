@@ -1,0 +1,13 @@
+
+
+POST http://localhost:5000/api/uploadfile HTTP/1.1
+content-type: application/json
+
+{
+    "rID":111,
+    "filename": "DFA Microsoft CRM API Documentation.docx",
+    "versionNumber":4
+}
+
+###
+GET http://localhost:5000/api/uploadfile HTTP/1.1
