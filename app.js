@@ -27,13 +27,19 @@ app.use('*', async (req, res, next) => {
 
 /* handle errors */
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
+    let error = JSON.parse(err.message);
+    res.status(error.status || 500);
     res.send({
         error: {
-            status: err.status || 500,
-            message: err.message
+            status: error.status || 500,
+            message: error.message
         }
     })
+})
+
+/*  */
+process.on('uncaughtException', err => {
+    console.error('There was an uncaught error ', err)
 })
 
 /* initialize the server */

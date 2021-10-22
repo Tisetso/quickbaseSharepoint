@@ -41,64 +41,65 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
             DownloadedFile = response.data;
         })
         .catch((err) => {
-            next(createError.NotFound)
+            console.log({status : err.response.status, message: err.response.statusText});
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
         })
 
     /**
      * save file to local server
      */
-    /*console.log('********* save file to local server ********');
+    console.log('********* save file to local server ********');
     const DownloadedFileBuff = Buffer.from(DownloadedFile, 'base64');
     fs.writeFile('./temp/' + req.body.filename, DownloadedFileBuff, (err) => {
         if (err) {
-            console.error(err);
-            res.status(500).send(err);
+            console.log(err.Error);
+            throw new Error(err);
         }
         console.log("Saved at " + __dirname + "/temp/" + req.body.filename);
-    });*/
+    });
 
     /**
      * Get Auth token
      */
-    /*await axios.post(config.msauth.authUrl, qs.stringify(config.msauth.authData), config.msauth.AuthOption)
+    await axios.post(config.msauth.authUrl, qs.stringify(config.msauth.authData), config.msauth.AuthOption)
         .then((response) => {
             token = response.data.access_token;
             //console.log(token);
         })
         .catch((err) => {
             console.error(err);
-            next({ status: err.response.status, message: err.response.statusText })
-        })*/
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
+        })
 
     /**
      * Get XRequestDigest
      */
-    /*console.log('********* Get XRequestDigest ********');
+    console.log('********* Get XRequestDigest ********');
     await axios.post(config.sharepoint.contextUrl, null, { headers: { 'Authorization': 'Bearer ' + token } })
         .then((response) => {
             XRequestDigest = response.data.FormDigestValue;
             console.log(XRequestDigest)
         })
         .catch((err) => {
-            console.error(__dirname + "/temp/" + req.body.filename);
-            next({ status: err.response.status, message: err.response.statusText });
-        })*/
+            console.error({ status: err.response.status, message: err.response.statusText });
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
+        })
 
     /**
      * Read file from local server
      */
-    /*console.log('********* Read file from local server ********');
+    console.log('********* Read file from local server ********');
     bufferedFile = fs.readFileSync("./temp/" + req.body.filename, (err) => {
         if (err) {
             console.log(err)
-            next({ status: err.response.status, message: err.response.statusText });
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
         }
-    });*/
+    });
 
     /**
      * Upload file to sharepoint library
      */
-    /*console.log('********* Upload file to sharepoint library ********');
+    console.log('********* Upload file to sharepoint library ********');
     const uploadfileUrl = config.sharepoint.uploadBaseUrl + "/" + "Files/add(url='" + req.body.filename + "',overwrite=true)";
     const uploadfileOptions = {
         headers: {
@@ -112,13 +113,13 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
             newFileLocation = "https://" + config.sharepoint.domain + response.data.ServerRelativeUrl;
         })
         .catch((err) => {
-            next({ status: err.response.status, message: err.response.statusText });
-        })*/
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
+        })
 
     /**
      * Update Quickbase Record
      */
-    /*const QuickbasePostData = {
+    const QuickbasePostData = {
         "to": config.quickbase.TableID,
         "data": [{
             "3": {
@@ -137,30 +138,30 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
             console.log(response.data);
         })
         .catch((err) => {
-            console.log(err)
-        })*/
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
+        })
 
     /**
      * Delete the record file attachement
      */
-    /*const dltUrl = config.quickbase.QuickbaseBaseUrl + "/files/" + process.env.TABLEID + "/" + req.body.rID + "/" + config.quickbase.FID + "/" + req.body.versionNumber;
+    const dltUrl = config.quickbase.QuickbaseBaseUrl + "/files/" + process.env.TABLEID + "/" + req.body.rID + "/" + config.quickbase.FID + "/" + req.body.versionNumber;
     await axios.delete(dltUrl, config.quickbase.QuickbaseOptions)
         .then((response) => {
             console.log(response.data);
         })
         .catch((err) => {
             console.log(err);
-            next({ statusCode: err.response.status, errorMessage: err.response.statusText });
-        })*/
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
+        })
 
     /**
      * Remove File from local server
      */
-    /*console.log('********* Remove File from local server ********');
+    console.log('********* Remove File from local server ********');
     fs.unlinkSync("./temp/" + req.body.filename, (err) => {
         if (err) {
             console.log(err)
-            next({ statusCode: err.response.status, errorMessage: err.response.statusText });
+            throw new Error(JSON.stringify({status : err.response.status, message: err.response.statusText}));
         }
     });
 
@@ -173,9 +174,10 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
             }
         })
     } else {
-        next(createError.InternalServerError())
-    }*/
+        throw new Error(createError.InternalServerError())
+    }
 })
 )
+
 
 module.exports = router
