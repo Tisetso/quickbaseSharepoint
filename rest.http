@@ -4,11 +4,11 @@ POST http://localhost:5000/api/uploadfile HTTP/1.1
 content-type: application/json
 
 {
-    "rID":111,
+    "rID":120,
     "docFieldID": 6,
-    "filename": "DFA Microsoft CRM API Documentation.docx",
+    "filename": "output.pdf",
     "versionNumber":4
 }
 
 ###
-GET http://localhost:5000/api/uploadfile HTTP/1.1
+GET http://localhost:5000 HTTP/1.1

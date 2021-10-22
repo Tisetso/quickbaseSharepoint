@@ -13,16 +13,9 @@ app.use('/api', uploadfileRoute)
 /* log all requests and responses */
 app.use(morgan('dev'));
 
-/* define defualt route */
-app.get('/', (req, res, next)=>{
-    res.send({
-        "request" : "/api/uploadfile/"
-    })
-})
-
 /* exclude all routes that are not defined */
-app.use('*', async (req, res, next) => {
-    next(createError.NotFound())
+app.use(async (req, res, next) => {
+    next()
 })
 
 /* handle errors */
