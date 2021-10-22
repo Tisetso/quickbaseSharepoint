@@ -34,7 +34,7 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
      * Download Quickbase File Attachement
      */
     console.log('********* Download Quickbase File Attachement ********');
-    const fileDownload = "https://api.quickbase.com/v1/files/" + process.env.TABLEID + "/" + req.body.rID + "/6/" + req.body.versionNumber;
+    const fileDownload = "https://api.quickbase.com/v1/files/" + process.env.TABLEID + "/" + req.body.rID + "/"+req.body.docFieldID+"/" + req.body.versionNumber;
     await axios.get(fileDownload, config.quickbase.QuickbaseOptions)
         .then((response) => {
             //console.log(response.data);
@@ -144,7 +144,7 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
     /**
      * Delete the record file attachement
      */
-    const dltUrl = config.quickbase.QuickbaseBaseUrl + "/files/" + process.env.TABLEID + "/" + req.body.rID + "/" + config.quickbase.FID + "/" + req.body.versionNumber;
+    const dltUrl = config.quickbase.QuickbaseBaseUrl + "/files/" + process.env.TABLEID + "/" + req.body.rID + "/" + req.body.docFieldID + "/" + req.body.versionNumber;
     await axios.delete(dltUrl, config.quickbase.QuickbaseOptions)
         .then((response) => {
             console.log(response.data);

@@ -5,6 +5,7 @@ content-type: application/json
 
 {
     "rID":111,
+    "docFieldID": 6,
     "filename": "DFA Microsoft CRM API Documentation.docx",
     "versionNumber":4
 }
