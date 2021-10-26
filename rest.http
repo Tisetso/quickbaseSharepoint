@@ -6,9 +6,10 @@ content-type: application/json
 {
     "rID":120,
     "docFieldID": 6,
-    "filename": "output.pdf",
-    "versionNumber":4
+    "newFileLocation": 13,
+    "filename": "FRS_Real Time Feasibility_V4_00.pdf",
+    "versionNumber":2
 }
 
 ###
-GET http://localhost:5000 HTTP/1.1
+GET http://localhost:5000/ HTTP/1.1

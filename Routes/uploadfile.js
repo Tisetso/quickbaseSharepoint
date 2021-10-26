@@ -126,7 +126,7 @@ router.post('/uploadfile', catchExceptions(async (req, res, next) => {
                 "value": req.body.rID
             },
             "13": {
-                "value": newFileLocation
+                "value": req.body.newFileLocation
             }
         }],
         "fieldsToReturn": [
